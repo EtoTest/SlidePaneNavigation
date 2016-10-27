@@ -1,20 +1,14 @@
 package com.example.ivan.hophey;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +16,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.transitionseverywhere.TransitionManager;
-
-import static android.R.attr.visible;
 
 public class SlideActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -127,11 +118,11 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            getFragmentManager().beginTransaction().replace(R.id.content, new BlankFragment()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content, new FirstFragment()).commit();
         } else if (id == R.id.nav_slideshow) {
-            getFragmentManager().beginTransaction().replace(R.id.content, new ItemFragment()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content, new SecondFragment()).commit();
         } else if (id == R.id.nav_manage) {
-            getFragmentManager().beginTransaction().replace(R.id.content, new PlusOneFragment()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content, new ThirdFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

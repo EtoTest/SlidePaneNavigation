@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:id="@+id/backGr"/>
+        android:id="@+id/backGr"
+        android:contentDescription="@string/slide_navigation_background" />
 
     <android.support.v4.widget.SlidingPaneLayout
         android:id="@+id/sliding_pane_layout"
