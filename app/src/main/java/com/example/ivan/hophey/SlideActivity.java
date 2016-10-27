@@ -118,7 +118,6 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
         return Math.abs(statusBarTop - contentViewTop);
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
