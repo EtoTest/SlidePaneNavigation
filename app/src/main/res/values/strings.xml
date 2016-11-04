@@ -12,4 +12,5 @@
     <string name="second_fragment">Second fragment</string>
     <string name="first_fragment">First fragment</string>
     <string name="slide_navigation_background">Slide navigation background</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

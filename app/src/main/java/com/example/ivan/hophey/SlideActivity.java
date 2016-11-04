@@ -1,5 +1,6 @@
 package com.example.ivan.hophey;
 
+import android.app.Fragment;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -7,12 +8,14 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +23,113 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 
-public class SlideActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SlideActivity extends AppCompatActivity {
+
+    private LinearLayout.LayoutParams ll_params =
+            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    protected void setHeaderView(View view){
+        navigationView.addHeaderView(view);
+    }
+
+    protected void setHeaderView(int id){
+        View headerView = LayoutInflater.from(this).inflate(id, null, false);
+        navigationView.addHeaderView(headerView);
+    }
+
+    protected NavigationView getNavigationView(){
+        return navigationView;
+    }
+
+    protected View getHeaderView(){
+        return navigationView.getHeaderView(0);
+    }
+
+    protected void setMenuTextColor(ColorStateList colorStateList){
+        navigationView.setItemTextColor(colorStateList);
+    }
+
+    protected void setMenuTextColor(int color){
+        navigationView.setItemTextColor(ColorStateList.valueOf(color));
+    }
+
+    protected void setNavigationMenu(int menu){
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(menu);
+    }
+
+    protected Menu getNavigationMenu(){
+        return navigationView.getMenu();
+    }
+
+    protected void setMenuIconColor(ColorStateList colorStateList){
+        navigationView.setItemIconTintList(colorStateList);
+    }
+
+    protected void setNavigationBackgroundColor(int color){
+        navigationView.setBackgroundColor(ContextCompat.getColor(this, color));
+    }
+
+    protected void setMenuIconColor(int color){
+        navigationView.setItemIconTintList(ColorStateList.valueOf(color));
+    }
+
+    protected void setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener listener){
+        navigationView.setNavigationItemSelectedListener(listener);
+    }
+
+    protected void setSlidingFadeColor(int color){
+        slidingPaneLayout.setSliderFadeColor(color);
+    }
+
+    protected Toolbar getToolbar(){
+        return toolbar;
+    }
+
+    protected void setToolbarColor(int color){
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, color));
+    }
+
+    private NavigationView navigationView;
+    private SlidingPaneLayout slidingPaneLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slide);
+        RelativeLayout mainView = new RelativeLayout(this);
+        mainView.setLayoutParams(ll_params);
+        setContentView(mainView);
 
-        final LinearLayout view_drawer = (LinearLayout)findViewById(R.id.view_drawer);
-        final SlidingPaneLayout slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
-        ImageView back = (ImageView) findViewById(R.id.backGr);
+        ImageView background_imageView = new ImageView(this);
+        background_imageView.setLayoutParams(ll_params);
+        background_imageView.setId(R.id.background_imageView);
+        background_imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        mainView.addView(background_imageView);
+
+        slidingPaneLayout = new SlidingPaneLayout(this);
+        slidingPaneLayout.setId(R.id.sliding_pane_layout);
+        slidingPaneLayout.setLayoutParams(new SlidingPaneLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mainView.addView(slidingPaneLayout);
+
+        final LinearLayout view_drawer = new LinearLayout(this);
+        view_drawer.setLayoutParams(ll_params);
+        view_drawer.setOrientation(LinearLayout.VERTICAL);
+        view_drawer.setId(R.id.view_drawer);
+        slidingPaneLayout.addView(view_drawer);
+
+        navigationView = new NavigationView(this);
+        navigationView.setId(R.id.navigation_view);
+        NavigationView.LayoutParams navLayoutParams = new NavigationView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        navigationView.setLayoutParams(navLayoutParams);
+        view_drawer.addView(navigationView);
 
         final LinearLayout content_view_group = new LinearLayout(this);
         content_view_group.setId(R.id.content_view_group);
-        LinearLayout.LayoutParams ll_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         content_view_group.setLayoutParams(ll_params);
         content_view_group.setGravity(Gravity.CENTER_VERTICAL);
         content_view_group.setOrientation(LinearLayout.VERTICAL);
@@ -48,8 +141,21 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
         view_content.setLayoutParams(ll_params);
         content_view_group.addView(view_content);
 
-        Picasso.with(this).load(R.drawable.test_bg).fit().centerCrop().into(back);
-        slidingPaneLayout.setSliderFadeColor(Color.TRANSPARENT);
+        toolbar = new Toolbar(this);
+        toolbar.setId(R.id.toolbar);
+
+        //todo correct toolbar height
+        Toolbar.LayoutParams toolparParams = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
+        toolbar.setLayoutParams(toolparParams);
+        view_content.addView(toolbar);
+
+        FrameLayout frameLayout = new FrameLayout(this);
+        frameLayout.setId(R.id.frame_layout);
+        FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        frameLayout.setLayoutParams(frameLayoutParams);
+        view_content.addView(frameLayout);
+
+        Picasso.with(this).load(R.drawable.test_bg).fit().centerCrop().into(background_imageView);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -63,17 +169,6 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
 
         ViewGroup.LayoutParams contentParams = view_content.getLayoutParams();
         view_content.setLayoutParams(contentParams);
-
-        view_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (slidingPaneLayout.isOpen()){
-                    slidingPaneLayout.closePane();
-                } else {
-                    slidingPaneLayout.openPane();
-                }
-            }
-        });
 
         SlidingPaneLayout.PanelSlideListener panelSlideListener = new SlidingPaneLayout.PanelSlideListener() {
             @Override
@@ -100,34 +195,22 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
 
         slidingPaneLayout.setPanelSlideListener(panelSlideListener);
 
-        NavigationView navigationView = new NavigationView(this);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setId(R.id.navigation_view);
-        NavigationView.LayoutParams navLayoutParams = new NavigationView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        navigationView.setLayoutParams(navLayoutParams);
-        navigationView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_main, null, false);
-        navigationView.addHeaderView(headerView);
-        navigationView.getMenu().clear(); //clear old inflated items.
-        navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
-        navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
-        navigationView.inflateMenu(R.menu.activity_main_drawer); //inflate new items.
-        view_drawer.addView(navigationView);
+    }
 
-        Toolbar toolbar = new Toolbar(this);
-        toolbar.setId(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        //todo correct toolbar height
-        Toolbar.LayoutParams toolparParams = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
-        toolbar.setLayoutParams(toolparParams);
-        view_content.addView(toolbar);
+    protected void openNavigation(){
+        slidingPaneLayout.openPane();
+    }
 
-        FrameLayout frameLayout = new FrameLayout(this);
-        frameLayout.setId(R.id.frame_layout);
-        FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        frameLayout.setLayoutParams(frameLayoutParams);
-        view_content.addView(frameLayout);
-        getFragmentManager().beginTransaction().add(R.id.frame_layout, new FirstFragment()).commit();
+    protected void closeNavigation(){
+        slidingPaneLayout.closePane();
+    }
+
+    protected void addFragment(Fragment fragment){
+        getFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
+    }
+
+    protected void replaceFragment(Fragment fragment){
+        getFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 
     private int getStatusBarHeight(){
@@ -139,23 +222,4 @@ public class SlideActivity extends AppCompatActivity implements NavigationView.O
         return Math.abs(statusBarTop - contentViewTop);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            getFragmentManager().beginTransaction().replace(R.id.frame_layout, new FirstFragment()).commit();
-        } else if (id == R.id.nav_slideshow) {
-            getFragmentManager().beginTransaction().replace(R.id.frame_layout, new SecondFragment()).commit();
-        } else {
-            getFragmentManager().beginTransaction().replace(R.id.frame_layout, new ThirdFragment()).commit();
-        }
-
-
-        return true;
-    }
 }
