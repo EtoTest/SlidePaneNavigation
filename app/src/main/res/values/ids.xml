@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="navigation_view" type="id">1</item>
+    <item name="frame_layout" type="id">2</item>
+    <item name="toolbar" type="id">3</item>
+    <item name="viewgroup_content" type="id">4</item>
+    <item name="content_view_group" type="id">5</item>
+</resources>

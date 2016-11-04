@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HopHey.iml" filepath="$PROJECT_DIR$/HopHey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidePaneNavigation.iml" filepath="$PROJECT_DIR$/SlidePaneNavigation.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/slidepanenavigation/slidepanenavigation.iml" filepath="$PROJECT_DIR$/slidepanenavigation/slidepanenavigation.iml" />
     </modules>
   </component>
 </project>
